@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>The Islamic Golden Age</title>
+    <!-- Core D3 and D3-Annotation Libraries -->
+    <script src="https://d3js.org/d3.v5.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/d3-annotation/2.5.1/d3-annotation.min.js"></script>
+    <style>
+        body { 
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; 
+            background-color: #fdfbf7; 
+            color: #2c3e50; 
+            text-align: center; 
+            margin: 0;
+            padding: 20px;
+        }
+        h1 { margin-bottom: 5px; }
+        #scene-desc { max-width: 700px; margin: 10px auto 20px auto; color: #555; height: 40px; }
+        
+        #chart-container { 
+            display: inline-block; 
+            position: relative; /* Crucial for tooltip positioning */
+        }
+        svg { 
+            background-color: white; 
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1); 
+            border-radius: 8px;
+        }
+        
+        /* Buttons */
+        .controls { margin-bottom: 20px; }
+        button { 
+            padding: 10px 24px; font-size: 16px; cursor: pointer; margin: 0 10px; 
+            background-color: #2c3e50; color: white; border: none; border-radius: 4px; 
+            transition: background 0.3s;
+        }
+        button:hover { background-color: #34495e; }
+        button:disabled { background-color: #bdc3c7; cursor: not-allowed; }
+        
+        /* Tooltip */
+        #tooltip {
+            position: absolute; opacity: 0; background: rgba(44, 62, 80, 0.95);
+            color: white; padding: 12px; border-radius: 6px; pointer-events: none;
+            font-size: 13px; text-align: left; transition: opacity 0.2s;
+            width: 220px; line-height: 1.4; box-shadow: 0 4px 8px rgba(0,0,0,0.3);
+        }
+        #tooltip strong { color: #f1c40f; font-size: 15px; }
+
+        /* Annotations */
+        .annotation-note-title { font-weight: bold; fill: #c0392b; }
+        .annotation-note-label { fill: #333; font-size: 12px; }
+        .annotation path { stroke: #c0392b; stroke-width: 2px; }
+        
+        /* Axis styling */
+        .domain, .tick line { stroke: #bdc3c7; }
+        .tick text { font-size: 12px; fill: #7f8c8d; }
+    </style>
+</head>
+<body>
+
+    <h1>The Islamic Golden Age & Scientific Lineages</h1>
+    <h3 id="scene-title">Scene 1: The Early Establishments</h3>
+    <p id="scene-desc">In the 8th and 9th centuries, places like Baghdad and Fez became the intellectual centers of the world.</p>
+
+    <div class="controls">
+        <button id="prevBtn" onclick="changeScene(-1)" disabled>Previous Era</button>
+        <button id="nextBtn" onclick="changeScene(1)">Next Era</button>
+    </div>
+
+    <div id="chart-container">
+        <div id="tooltip"></div>
+        <svg width="1000" height="600"></svg>
+    </div>
+
+    <script>
+        // --- 1. DATA (Dataset) ---
+        const scholars = [
+            { name: "Al-Khwarizmi", year: 820, field: "Mathematics", location: "Baghdad", impact: 9, desc: "Father of Algebra and algorithms." },
+            { name: "Al-Kindi", year: 850, field: "Philosophy", location: "Baghdad", impact: 7, desc: "Philosopher of the Arabs, early cryptographer." },
+            { name: "Fatima al-Fihri", year: 859, field: "Education", location: "Fez", impact: 8, desc: "Founded Al Quaraouiyine, the world's oldest continually operating university." },
+            { name: "Al-Razi (Rhazes)", year: 900, field: "Medicine", location: "Baghdad", impact: 8, desc: "Pioneer in pediatrics and chemistry." },
+            { name: "Al-Farabi", year: 920, field: "Philosophy", location: "Damascus", impact: 8, desc: "The Second Teacher (after Aristotle)." },
+            { name: "Al-Zahrawi", year: 1000, field: "Medicine", location: "Cordoba", impact: 9, desc: "Father of modern surgery; invented surgical instruments." },
+            { name: "Ibn Sina (Avicenna)", year: 1010, field: "Medicine", location: "Bukhara", impact: 10, desc: "Author of The Canon of Medicine." },
+            { name: "Al-Biruni", year: 1017, field: "Astronomy", location: "Ghazni", impact: 9, desc: "Calculated Earth's radius with remarkable precision." },
+            { name: "Ibn Al-Haytham", year: 1021, field: "Optics", location: "Cairo", impact: 9, desc: "Founder of modern optics and the scientific method." },
+            { name: "Omar Khayyam", year: 1090, field: "Mathematics", location: "Nishapur", impact: 8, desc: "Poet and master of cubic equations." },
+            { name: "Al-Idrisi", year: 1154, field: "Geography", location: "Palermo", impact: 8, desc: "Created the Tabula Rogeriana, the most accurate map of the world at the time." },
+            { name: "Ibn Rushd (Averroes)", year: 1160, field: "Philosophy", location: "Cordoba", impact: 9, desc: "Defender of Aristotelian philosophy in Europe." },
+            { name: "Ibn al-Nafis", year: 1242, field: "Medicine", location: "Damascus", impact: 8, desc: "Discovered the pulmonary circulation of blood." },
+            { name: "Nasir al-Din al-Tusi", year: 1250, field: "Astronomy", location: "Maragheh", impact: 9, desc: "Created the Tusi couple, later utilized by Copernicus." },
+            { name: "Ibn Battuta", year: 1340, field: "Geography", location: "Tangier", impact: 8, desc: "Travelled more than any other pre-modern explorer." },
+            { name: "Ibn Khaldun", year: 1377, field: "Historiography", location: "Tunis", impact: 9, desc: "Father of sociology, economics, and historiography." },
+            { name: "Ulugh Beg", year: 1420, field: "Astronomy", location: "Samarkand", impact: 7, desc: "Sultan who built the great Samarkand observatory." }
+        ];
+
+        // --- 2. PARAMETERS (State Variables) ---
+        let currentScene = 0; 
+        
+        // --- 3. SVG & SCALES SETUP ---
+        // Left margin accommodates text. Right margin accommodates the Legend.
+        const margin = { top: 60, right: 180, bottom: 60, left: 130 };
+        const width = 1000 - margin.left - margin.right;
+        const height = 600 - margin.top - margin.bottom;
+
+        const svg = d3.select("svg")
+            .append("g")
+            .attr("transform", `translate(${margin.left},${margin.top})`);
+
+        // Scales
+        const xScale = d3.scaleLinear().domain([750, 1450]).range([0, width]);
+        const yScale = d3.scalePoint()
+            .domain([...new Set(scholars.map(d => d.field))])
+            .range([0, height])
+            .padding(0.5);
+        const rScale = d3.scaleLinear().domain([5, 10]).range([6, 22]); // Adjust circle sizes
+        const colorScale = d3.scaleOrdinal(d3.schemeCategory10)
+            .domain([...new Set(scholars.map(d => d.location))]);
+
+        // Axes
+        svg.append("g")
+            .attr("transform", `translate(0,${height})`)
+            .call(d3.axisBottom(xScale).tickFormat(d3.format("d")));
+        svg.append("g").call(d3.axisLeft(yScale));
+
+        // Draw Data Points
+        const circles = svg.selectAll("circle")
+            .data(scholars)
+            .enter()
+            .append("circle")
+            .attr("cx", d => xScale(d.year))
+            .attr("cy", d => yScale(d.field))
+            .attr("r", d => rScale(d.impact))
+            .attr("fill", d => colorScale(d.location))
+            .attr("stroke", "#34495e")
+            .attr("stroke-width", 1.5)
+            .attr("opacity", 0); // Start hidden
+
+        // Tooltip Setup (Smart Positioning)
+        const tooltip = d3.select("#tooltip");
+        circles.on("mouseover", function(d) {
+            if(currentScene === 2) { 
+                d3.select(this).attr("stroke-width", 3).attr("stroke", "#e74c3c");
+                
+                // Get mouse coordinates relative to the chart container
+                const mousePos = d3.mouse(d3.select("#chart-container").node());
+                
+                // Smart placement: if close to the right edge, flip tooltip to the left
+                let xPos = mousePos[0] + 15;
+                if (mousePos[0] > width - 50) { 
+                    xPos = mousePos[0] - 240; 
+                }
+
+                tooltip.style("opacity", 1)
+                       .html(`<strong>${d.name}</strong><br>
+                              <span style="color:#bdc3c7;">Year:</span> ${d.year}<br>
+                              <span style="color:#bdc3c7;">Location:</span> ${d.location}<br>
+                              <hr style="border:0; border-top:1px solid #7f8c8d; margin:5px 0;">
+                              <i>${d.desc}</i>`)
+                       .style("left", xPos + "px")
+                       .style("top", (mousePos[1] - 40) + "px");
+            }
+        }).on("mouseout", function() {
+            d3.select(this).attr("stroke-width", 1.5).attr("stroke", "#34495e");
+            tooltip.style("opacity", 0);
+        });
+
+        // --- 4. LEGEND ---
+        // Placed completely outside the chart to the right
+        const legend = svg.append("g")
+            .attr("transform", `translate(${width + 30}, 20)`);
+
+        legend.append("text")
+            .attr("x", 0).attr("y", -10)
+            .text("Locations")
+            .attr("font-weight", "bold").attr("fill", "#2c3e50");
+
+        const locations = colorScale.domain();
+        
+        legend.selectAll("rect")
+            .data(locations)
+            .enter().append("rect")
+            .attr("x", 0).attr("y", (d, i) => i * 22)
+            .attr("width", 14).attr("height", 14).attr("rx", 3)
+            .attr("fill", d => colorScale(d));
+
+        legend.selectAll("text.label")
+            .data(locations)
+            .enter().append("text").attr("class", "label")
+            .attr("x", 22).attr("y", (d, i) => i * 22 + 11)
+            .text(d => d)
+            .attr("font-size", "13px").attr("fill", "#555");
+
+        // --- 5. SCENES & ANNOTATIONS LOGIC ---
+        const annotations = [
+            [{ // Scene 0
+                note: { label: "Developed Al-Jabr (Algebra) in the House of Wisdom.", title: "Al-Khwarizmi" },
+                x: xScale(820), y: yScale("Mathematics"), dx: 40, dy: -10 
+            }],
+            [{ // Scene 1
+                note: { label: "Wrote the Canon of Medicine, the standard medical text for centuries.", title: "Ibn Sina" },
+                x: xScale(1010), y: yScale("Medicine"), dx: 40, dy: -30 
+            }],
+            [{ // Scene 2
+                note: { label: "Hover over any circle to explore all 17 scholars and their massive contributions.", title: "Explore the Full Network" },
+                // Placed safely in the upper-right section of the graph
+                x: xScale(1300), y: yScale("Philosophy"), dx: -40, dy: -30
+            }]
+        ];
+
+        const makeAnnotations = d3.annotation().type(d3.annotationCallout);
+        const annotationGroup = svg.append("g").attr("class", "annotation-group");
+
+        function updateScene() {
+            const titles = [
+                "Scene 1: The Early Translation Movement", 
+                "Scene 2: The Global Polymath Peak", 
+                "Scene 3: The Enduring Global Legacy"
+            ];
+            const desc = [
+                "In the 8th and 9th centuries, places like Baghdad and Fez became early intellectual centers, laying the groundwork for Algebra and formal Universities.",
+                "From the 10th to 13th centuries, major advancements emerged across the empire, reaching as far as Cordoba, Spain.",
+                "The legacy stretched across centuries and continents. You may now explore freely using your mouse."
+            ];
+            d3.select("#scene-title").text(titles[currentScene]);
+            d3.select("#scene-desc").text(desc[currentScene]);
+
+            // Update Data Visibility (State Changes)
+            circles.transition().duration(1000).attr("opacity", d => {
+                if (currentScene === 0) return d.year < 950 ? 1 : 0.05; // Dim future scholars heavily
+                if (currentScene === 1) return d.year >= 950 && d.year <= 1250 ? 1 : 0.05; 
+                return 1; // Scene 2: All visible
+            });
+
+            // Update Annotations
+            makeAnnotations.annotations(annotations[currentScene]);
+            annotationGroup.call(makeAnnotations);
+            
+            // Initial animation for the annotation
+            annotationGroup.style("opacity", 0).transition().duration(1000).style("opacity", 1);
+
+            // Update Buttons
+            d3.select("#prevBtn").property("disabled", currentScene === 0);
+            d3.select("#nextBtn").property("disabled", currentScene === 2);
+        }
+
+        // --- 6. TRIGGER HANDLER ---
+        function changeScene(direction) {
+            currentScene += direction;
+            updateScene();
+        }
+
+        // Initialize first scene
+        updateScene();
+
+    </script>
+</body>
+</html>
