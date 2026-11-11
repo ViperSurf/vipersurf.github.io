@@ -1,77 +1,146 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Your Name - Resume</title>
+    <title>Bara M. Zalloum — Computer Science @ UIUC</title>
+    <meta name="description" content="Portfolio of Bara M. Zalloum — Computer Science student at the University of Illinois Urbana-Champaign. Software engineering projects, IT systems work, and community technology.">
     <link rel="stylesheet" href="css/styles.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700;800&display=swap" rel="stylesheet">
 </head>
-
-<body> 
-    <header>
-        <h1>Portfolio</h1>
-    </header>
-
-    <header>
-        <nav>
-          <ul>
-            <li><a href="education/education.html">Education</a></li>
-            <li><a href="experience/experience.html">Experience</a></li>
-            <li><a href="projects/projects.html">Projects</a></li>
-            <li><a href="leadership/leadership.html">Leadership</a></li>
-          </ul>
+<body>
+    <header class="site-header">
+        <nav class="nav" aria-label="Main">
+            <a class="brand" href="#top">Bara M. Zalloum</a>
+            <ul>
+                <li><a href="#projects">Projects</a></li>
+                <li><a href="#experience">Experience</a></li>
+                <li><a href="#skills">Skills</a></li>
+                <li><a href="#education">Education</a></li>
+                <li><a href="#contact">Contact</a></li>
+            </ul>
         </nav>
     </header>
 
-    <!-- I added the opening <main> tag here so your closing </main> tag at the bottom works properly -->
-    <main>
-        <section id="education">
-          <h2>Education</h2>
-          <!-- education details here -->
-          <b>Univeristy </b> -  <br>
-          <p>Click <a href="education/education.html">here</a> for more details.</p>
-        </section>
-
-        <section id="experience">
-          <h2>Experience</h2>
-          <!-- experience details here -->
-          <b>Intern </b> -  <br>
-          <p>Click <a href="experience/experience.html">here</a> for more details.</p>
+    <main id="top">
+        <section class="hero">
+            <h1>Bara M. Zalloum</h1>
+            <p class="tagline">Computer Science @ University of Illinois Urbana-Champaign (Class of 2027)</p>
+            <p class="hero-sub">I build software people actually use — community platforms, data pipelines, and the IT systems behind live events — and I ship them to production.</p>
+            <div class="hero-links">
+                <a class="btn primary" href="#projects">See my projects</a>
+                <a class="btn" href="https://github.com/ViperSurf" target="_blank" rel="noopener">GitHub</a>
+                <a class="btn" href="https://www.linkedin.com/in/barazalloum/" target="_blank" rel="noopener">LinkedIn</a>
+                <a class="btn" href="Bara_Zalloum_Resume_SWE.pdf" target="_blank" rel="noopener">SWE Résumé</a>
+                <a class="btn" href="Bara_Zalloum_Resume_IT.pdf" target="_blank" rel="noopener">IT Résumé</a>
+            </div>
         </section>
 
         <section id="projects">
-          <h2>Projects</h2>
-          <!-- project details here -->
-           <b>Data Visualization Project </b> - An interactive D3.js narrative on the Islamic Golden Age. <a href="/projects/dataviz.html">View Project Here</a> <br>
-           <b>Github Page </b> - My own website on github <br>
-           <b>Android Studio </b> - Currently learning to develop android apps, prototype in progress <br>
-           <b>Unreal Engine </b> - Created a infinite runner game, platformer game, and a team project game that involved mulitple levels. <br>
-          <p>Click <a href="projects/projects.html">here</a> for more details.</p>
+            <h2>Projects</h2>
+            <div class="cards">
+                <article class="card">
+                    <h3>Al-Baqaa — Muslim Obituaries</h3>
+                    <p class="stack">React 18 · TypeScript · Vite · Tailwind CSS · Node.js · OpenAPI · GitHub Actions CI/CD</p>
+                    <p>A production community platform for Janazah announcements: obituary listings and submissions, calendar (.ics) export, a condolence Memory Wall, charity trackers, Janazah alerts, and a verified funeral-services directory. Six languages with right-to-left support, a shared JSON data layer behind an OpenAPI 3.0 contract, and a reference API server — deployed to GitHub Pages with automated CI/CD.</p>
+                    <p class="card-links">
+                        <a href="https://vipersurf.github.io/MuslimObituaries/" target="_blank" rel="noopener">Live site</a>
+                        <a href="https://github.com/ViperSurf/MuslimObituaries" target="_blank" rel="noopener">Code</a>
+                    </p>
+                </article>
+
+                <article class="card">
+                    <h3>Campus Housing — UIUC Apartments</h3>
+                    <p class="stack">Vue 3 · TypeScript · Python · Leaflet/OpenStreetMap · GitHub Actions</p>
+                    <p>A campus-wide apartment finder for Champaign-Urbana, revived from an open-source fork: map and list search over 170+ live listings, plus anonymous landlord reviews (maintenance, communication, fairness, move-out) so management has to do better. A Python ingestion pipeline scrapes landlord portals and geocodes addresses; a scheduled workflow refreshes the data and redeploys the site every week, automatically.</p>
+                    <p class="card-links">
+                        <a href="https://vipersurf.github.io/uiuc-apartments.com/#/" target="_blank" rel="noopener">Live site</a>
+                        <a href="https://github.com/ViperSurf/uiuc-apartments.com" target="_blank" rel="noopener">Code</a>
+                    </p>
+                </article>
+
+                <article class="card">
+                    <h3>Islamic Golden Age — Data Visualization</h3>
+                    <p class="stack">D3.js · JavaScript · HTML/CSS</p>
+                    <p>An interactive D3.js narrative visualization exploring the Islamic Golden Age, with scroll-driven storytelling and dynamic charts.</p>
+                    <p class="card-links">
+                        <a href="projects/dataviz.html">View project</a>
+                    </p>
+                </article>
+
+                <article class="card">
+                    <h3>Data Structures Suite</h3>
+                    <p class="stack">C++ · Data Structures &amp; Algorithms</p>
+                    <p>Coursework built from first principles: a five-card draw poker engine with AI opponents and a hand-ranking evaluator, a Hangman game, and a gas-prices analysis program computing averages and yearly extremes over 20 years of data using linked lists and custom classes.</p>
+                    <p class="card-links">
+                        <a href="https://github.com/ViperSurf" target="_blank" rel="noopener">GitHub</a>
+                    </p>
+                </article>
+            </div>
         </section>
 
-    <section id="leadership">
-      <h2>Leadership</h2>
-      <!-- leadership details here -->
-      <b>President </b> -  <br>
-      <p>Click <a href="leadership/leadership.html">here</a> for more details.</p>
-    </section>
+        <section id="experience">
+            <h2>Experience</h2>
+            <div class="timeline">
+                <article>
+                    <h3>IT &amp; AV Systems Support — CIMIC</h3>
+                    <p class="meta">Central Illinois Mosque and Islamic Center, Urbana, IL · 2025 — Present</p>
+                    <p>Set up and operate servers, display TVs, cameras, and the livestream for weekly Jummah services and events. Built a Home Assistant + Wake-on-LAN system to remotely control displays, and trigger-based MacroDroid automation that keeps displays on the right channel for each event.</p>
+                </article>
+                <article>
+                    <h3>Engagement Specialist — Rosecrance Behavioral Health</h3>
+                    <p class="meta">Champaign, IL · May 2025 — Present</p>
+                    <p>Crisis engagement and care linkage across three counties — 2,500+ service contacts with 1,750 unique clients in the past year. Designed and maintained the team's data tracking system for crisis events and outcomes, and provide technical support in a HIPAA-regulated environment.</p>
+                </article>
+                <article>
+                    <h3>Software Engineer Intern — Confidential Technology Company</h3>
+                    <p class="meta">Rolling Meadows, IL · May 2023 — Aug 2023</p>
+                    <p>Designed and implemented a centralized framework for team ecosystem documentation using Markdown, HTML, and JavaScript, and developed configurable widgets for dynamic content creation without predefined data sources.</p>
+                </article>
+            </div>
+        </section>
 
-    <section id="skills">
-      <h2>Skills</h2>
-      <!-- leadership details here -->
-      <p><b>CS Languages:</b> C++, Java <br>
-        <b>Languages:</b> English</p>
-    </section>
-  </main>
+        <section id="skills">
+            <h2>Skills</h2>
+            <div class="skill-cols">
+                <div>
+                    <h3>Languages</h3>
+                    <p>TypeScript, JavaScript, Python, C++, Java, SQL, HTML/CSS, Bash</p>
+                </div>
+                <div>
+                    <h3>Frameworks &amp; Tools</h3>
+                    <p>React, Vue 3, Node.js, Tailwind CSS, Leaflet, D3.js, Git, GitHub Actions (CI/CD), REST APIs, OpenAPI, Linux/UNIX shell, Vite, Agile</p>
+                </div>
+                <div>
+                    <h3>IT &amp; Systems</h3>
+                    <p>IT support &amp; troubleshooting, servers, AV/livestream systems, Home Assistant, Wake-on-LAN, Android automation, HIPAA compliance</p>
+                </div>
+            </div>
+        </section>
 
-  <footer>
-    <p>&copy; Bara Zalloum</p>
-  </footer>
+        <section id="education">
+            <h2>Education</h2>
+            <article>
+                <h3>University of Illinois Urbana-Champaign</h3>
+                <p class="meta">Bachelor of Science in Computer Science · Expected May 2027</p>
+                <p>Relevant coursework: Data Structures &amp; Algorithms, Database Systems, Software Design, Computer Architecture, Game Development, Probability &amp; Statistics for Computer Science.</p>
+            </article>
+        </section>
 
-  <script src="script.js"></script>
+        <section id="contact">
+            <h2>Contact</h2>
+            <p>
+                <a href="mailto:zalloumbara@gmail.com">zalloumbara@gmail.com</a> ·
+                <a href="https://www.linkedin.com/in/barazalloum/" target="_blank" rel="noopener">LinkedIn</a> ·
+                <a href="https://github.com/ViperSurf" target="_blank" rel="noopener">GitHub</a>
+            </p>
+        </section>
+    </main>
+
+    <footer>
+        <p>© 2026 Bara M. Zalloum · Urbana-Champaign, Illinois</p>
+    </footer>
 </body>
 </html>

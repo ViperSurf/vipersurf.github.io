@@ -1,93 +1,129 @@
-/* Import Google Font */
-@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap');
-
-/* Reset styles */
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
+/* Bara M. Zalloum — portfolio styles (2026 rebuild) */
+:root {
+  --illini-blue: #13294B;
+  --illini-orange: #FF5F05;
+  --ink: #1c2733;
+  --muted: #5b6b7c;
+  --bg: #f7f8fa;
+  --card: #ffffff;
+  --line: #e3e8ee;
 }
 
-/* Body styles */
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+html { scroll-behavior: smooth; }
+
 body {
-  font-family: 'Montserrat', sans-serif;
-  line-height: 1.6;
-  color: #333;
-  background-color: #f5f5f5;
+  font-family: 'Montserrat', system-ui, sans-serif;
+  line-height: 1.65;
+  color: var(--ink);
+  background-color: var(--bg);
 }
 
-/* Header styles */
-header {
-  background-color: #333;
-  color: #fff;
-  padding: 1rem;
-  text-align: center;
+a { color: var(--illini-blue); }
+a:hover { color: var(--illini-orange); }
+
+/* Header / nav */
+.site-header {
+  background: var(--illini-blue);
+  position: sticky;
+  top: 0;
+  z-index: 10;
 }
-
-
-nav ul {
-  list-style-type: none;
+.nav {
+  max-width: 1024px;
+  margin: 0 auto;
+  padding: 0.9rem 1.25rem;
   display: flex;
-  justify-content: center;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  flex-wrap: wrap;
 }
+.brand { color: #fff; font-weight: 800; text-decoration: none; font-size: 1.05rem; }
+.nav ul { list-style: none; display: flex; gap: 1.25rem; flex-wrap: wrap; }
+.nav ul a { color: #dbe4f0; text-decoration: none; font-weight: 600; font-size: 0.95rem; }
+.nav ul a:hover { color: #fff; }
 
-nav ul li {
-  margin: 0 1rem;
-}
-
-nav ul li a {
-  color: #fff;
-  text-decoration: none;
-  transition: color 0.3s ease;
-}
-
-nav ul li a:hover {
-  color: #ccc;
-}
-
-/* Main content styles */
-main {
-  max-width: 800px;
-  margin: 2rem auto;
-  padding: 1rem;
-  background-color: #fff;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-}
-
-section {
-  padding: 20px;
-  margin: 20px;
-  border-radius: 5px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  margin-bottom: 2rem;
-}
-
-#education {
-  background-color: #e6f2ff; /* Light blue */
-}
-
-#experience {
-  background-color: #e6ffe6; /* Light green */
-}
-
-#projects {
-  background-color: #fffde6; /* Light yellow */
-}
-
-#leadership {
-  background-color: #ffe6e6; /* Light red */
-}
-
-h2 {
-  font-size: 2rem;
+/* Layout */
+main { max-width: 1024px; margin: 0 auto; padding: 0 1.25rem 2rem; }
+section { padding: 2.25rem 0 0.5rem; }
+section h2 {
+  font-size: 1.6rem;
+  font-weight: 800;
   margin-bottom: 1rem;
-  color: #333;
+  border-bottom: 3px solid var(--illini-orange);
+  display: inline-block;
+  padding-bottom: 0.15rem;
 }
 
-/* Footer styles */
+/* Hero */
+.hero { text-align: center; padding: 3.5rem 0 1rem; }
+.hero h1 { font-size: 2.6rem; font-weight: 800; color: var(--illini-blue); }
+.tagline { font-size: 1.15rem; font-weight: 600; margin-top: 0.4rem; }
+.hero-sub { color: var(--muted); max-width: 640px; margin: 0.9rem auto 0; }
+.hero-links { display: flex; gap: 0.6rem; justify-content: center; flex-wrap: wrap; margin-top: 1.4rem; }
+.btn {
+  border: 2px solid var(--illini-blue);
+  color: var(--illini-blue);
+  border-radius: 999px;
+  padding: 0.45rem 1.1rem;
+  font-weight: 700;
+  text-decoration: none;
+  font-size: 0.95rem;
+  background: transparent;
+}
+.btn:hover { border-color: var(--illini-orange); color: var(--illini-orange); }
+.btn.primary { background: var(--illini-blue); color: #fff; }
+.btn.primary:hover { background: var(--illini-orange); border-color: var(--illini-orange); color: #fff; }
+
+/* Project cards */
+.cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 1rem; }
+.card {
+  background: var(--card);
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  padding: 1.25rem;
+  box-shadow: 0 1px 3px rgba(19, 41, 75, 0.06);
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+.card h3 { font-size: 1.12rem; color: var(--illini-blue); }
+.stack { font-size: 0.82rem; font-weight: 700; color: var(--illini-orange); letter-spacing: 0.01em; }
+.card p { font-size: 0.95rem; }
+.card-links { margin-top: auto; display: flex; gap: 1rem; font-weight: 700; font-size: 0.92rem; }
+
+/* Experience */
+.timeline article {
+  background: var(--card);
+  border: 1px solid var(--line);
+  border-left: 4px solid var(--illini-blue);
+  border-radius: 8px;
+  padding: 1rem 1.25rem;
+  margin-bottom: 0.9rem;
+}
+.timeline h3 { font-size: 1.05rem; color: var(--illini-blue); }
+.meta { color: var(--muted); font-size: 0.9rem; font-weight: 600; margin: 0.15rem 0 0.4rem; }
+
+/* Skills */
+.skill-cols { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 1rem; }
+.skill-cols > div { background: var(--card); border: 1px solid var(--line); border-radius: 12px; padding: 1rem 1.25rem; }
+.skill-cols h3 { color: var(--illini-blue); font-size: 1rem; margin-bottom: 0.35rem; }
+.skill-cols p { font-size: 0.95rem; }
+
+/* Education / contact */
+#education article { background: var(--card); border: 1px solid var(--line); border-radius: 12px; padding: 1rem 1.25rem; }
+#contact p { font-size: 1.05rem; font-weight: 600; }
+
 footer {
-  background-color: #333;
-  color: #fff;
   text-align: center;
-  padding: 1rem;
+  color: var(--muted);
+  font-size: 0.9rem;
+  padding: 2rem 1rem 2.5rem;
+}
+
+@media (max-width: 560px) {
+  .hero h1 { font-size: 2rem; }
+  .nav { justify-content: center; }
 }
